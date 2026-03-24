@@ -3,8 +3,8 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   projectsSidebar: [
     'intro',
-    'metasploit-kerberos-certificate-observability-overview',
-    'kerberos-ticket-trace-subscriber-logger',
+    'my-project/metasploit-kerberos-certificate-observability-overview',
+    'my-project/kerberos-ticket-trace-subscriber-logger'
   ],
 };
 
