@@ -1,4 +1,5 @@
 ---
+id: kerberos-ticket-trace-subscriber-logger
 title: KerberosTicketTrace 第一阶段：subscriber 和 logger 已经实现了什么
 slug: /kerberos-ticket-trace-subscriber-logger
 date: 2026-03-24

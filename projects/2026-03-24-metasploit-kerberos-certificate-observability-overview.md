@@ -1,4 +1,5 @@
 ---
+id: metasploit-kerberos-certificate-observability-overview
 title: Kerberos 与证书认证可观测性项目总览
 slug: /metasploit-kerberos-certificate-observability-overview
 date: 2026-03-24
