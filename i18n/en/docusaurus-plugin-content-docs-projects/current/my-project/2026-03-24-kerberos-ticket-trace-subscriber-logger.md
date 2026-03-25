@@ -42,7 +42,9 @@ The trace enablement path and display style are already connected to the datasto
 
 The logger can identify common Kerberos message types and label them clearly in the output. The current mapping covers `AS-REQ`, `AS-REP`, `TGS-REQ`, `TGS-REP`, `AP-REQ`, `AP-REP`, and `KRB-ERROR`. For formatting, it uses `lib/rex/proto/kerberos/kerberos_readable_text_presenter.rb` to turn structured data into terminal-friendly text, such as `Message Type: 30 (KRB-ERROR)` and `Description: Additional pre-authentication required`.
 
-![image-20260324171905684](https://gitee.com/mimcyan/figure/raw/master/typora/image-20260324171905684.png)
+![AS-REQ trace example 1](../../../../../pic/AS-REQ1.png)
+
+![TGS-REQ trace example](../../../../../pic/TGS-REQ.png)
 
 ### 3. Safe serialization of complex data structures
 
@@ -54,7 +56,7 @@ For raw binary content, the logger also chooses a gentler presentation strategy.
 
 Credential events are already wired into `Krb5CcachePresenter`. When the code path extracts a TGT, TGS, or Delegation TGS credential, the logger can emit a fairly complete ccache-style summary.
 
-![image-20260324172233985](https://gitee.com/mimcyan/figure/raw/master/typora/image-20260324172233985.png)
+![AS-REQ trace example 2](../../../../../pic/AS-REQ2.png)
 
 ### 5. Error handling and stability
 
