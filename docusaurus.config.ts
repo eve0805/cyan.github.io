@@ -23,7 +23,7 @@ const config: Config = {
 
   i18n: {
     defaultLocale: 'zh-Hans',
-    locales: ['zh-Hans'],
+    locales: ['zh-Hans', 'en'],
   },
 
   presets: [
@@ -78,6 +78,10 @@ const config: Config = {
           docsPluginId: 'default',
           position: 'left',
           label: 'Notes',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
         {
           href: 'https://github.com/eve0805/cyan.github.io',

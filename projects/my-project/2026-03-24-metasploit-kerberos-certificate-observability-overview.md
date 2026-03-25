@@ -12,11 +12,15 @@ tags:
 
 # CertificateTrace and KerberosTicketTrace Support
 
+这篇文章从整体上梳理这个 GSoC 项目的动机、三条主线，以及当前 Kerberos 方向已经落下的基础设施。
+
 ## **0. 引言 / 动机**
 
 在 Metasploit 里调试 Kerberos 或证书认证流程时，一个很常见的问题不是“功能做不到”，而是“过程看不见”。拿 Kerberos 来说，我们可以请求 TGT、请求 TGS、再去对 SMB、LDAP、WinRM、MSSQL 等服务做认证；拿证书来说，Metasploit 也已经支持 AD CS 证书申请、PKINIT、以及多种证书驱动的认证路径。但一旦流程失败，或者我们想确认某一步到底发生了什么，现有工作流往往会被打断：先把 `.ccache`、`.kirbi`、`.pem`、`.pfx` 之类的工件导出来，再切到 OpenSSL、Certipy 或其他外部工具里单独分析，最后回到模块里继续排查。这个过程并不只是麻烦，它还会丢失很多运行时语义信息，比如缓存是否命中、是否发生了 pre-auth 重试、票据是怎么被复用的、刚签发出来的证书里到底带了什么 SAN/UPN。
 
-GSoC2026原文：
+> English version: <a href="/cyan.github.io/en/projects/metasploit-kerberos-certificate-observability-overview" data-noBrokenLinkCheck>Project Overview: Kerberos and Certificate Authentication Observability</a>
+
+GSoC2026 原文：
 
 > Kerberos and certificate-based authentication mechanisms are becoming increasingly prevalent across modern environments, particularly in Active Directory and enterprise deployments. As a result, Metasploit modules that interact with these authentication flows often require operators and developers to inspect Kerberos tickets or certificate material in order to understand behavior, troubleshoot failures, or validate exploitation techniques. Today, this inspection typically requires switching to separate auxiliary modules or exporting artifacts (such as .pfx files) for analysis with external tooling, which interrupts the normal workflow.
 >
@@ -41,19 +45,3 @@ GSoC2026原文：
 ## 4. 当前进展
 
 从当前进展来看，这个项目已经先落下了 Kerberos 方向的一块基础设施：底层 trace 接口、控制台 logger，以及它们在 Kerberos 客户端和服务认证路径里的初步接入已经成形。这意味着后续可以在同一条链路上继续扩展 trace level、语义事件、离线路径接入和 forge path，而不需要每个模块都各写一套临时日志。下一篇文章我会专门聚焦这一阶段，详细拆开 `KerberosTicketTrace` 里 subscriber 和 logger 这一层到底实现了什么、怎么接进现有代码路径，以及它离完整目标还差哪些步骤。
-
-## 5. 小知识点
-
-### 域认证之Kerberos协议的认证流程详解
-
-> [第47节3.1-Kerberos协议简介_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1EwUsYbE1B/)
-
-kerberos协议中也存在三个角色，分别是
-1、客户端A（client)：发送请求的一方
-2、服务端B(Server)：接收请求的一方
-3、密钥分发中心C(Key Distribution Center，KDC)，而密钥分发中心一般又分为两部分，分别是：
-    AS（AuthenticationServer)：认证服务器，专门用来认证客户端的身份并发放客户用于访问TGS的TGT（票据授予票据)
-    TGS（TicketGrantingTicket)：票据授予服务器，用来发放整个认证过程以及客户端访问服务端时所需的服务授予票据（Ticket)
-
-![kerberos.drawio.png](https://gitee.com/mimcyan/figure/raw/master/typora/kerberos.drawio.png)
-

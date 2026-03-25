@@ -14,6 +14,8 @@ tags:
 
 这篇文章只讨论 `KerberosTicketTrace` 的第一阶段实现：底层观测接口和可读输出。这是一次阶段性复盘，重点回答三个问题：`lib/rex/proto/kerberos/kerberos_subscriber.rb` 和 `lib/rex/proto/kerberos/kerberos_logger_subscriber.rb` 目前到底解决了什么问题，它们是怎么接进现有 Kerberos 链路的，以及它们距离提案里那套完整的 Kerberos 可观测性目标还有多远。
 
+> English version: <a href="/cyan.github.io/en/projects/kerberos-ticket-trace-subscriber-logger" data-noBrokenLinkCheck>KerberosTicketTrace Phase 1: what the subscriber and logger already deliver</a>
+
 ## 为什么第一步先做 subscriber 和 logger
 
 如果一开始就直接在各个 Kerberos 模块里手写日志，短期内确实能很快看到输出，但长期会很难维护。不同模块会各自打印不同风格的信息，低层 KDC 往返和高层服务认证之间也很难共用一套事件模型，更不用说后续还要接入离线检查、票据转换和 forge path。这个阶段先做 subscriber 和 logger，搭一层“观测骨架”：谁负责发事件，谁负责消费事件，先把边界划清楚，后面才有空间继续往里填更多语义。
