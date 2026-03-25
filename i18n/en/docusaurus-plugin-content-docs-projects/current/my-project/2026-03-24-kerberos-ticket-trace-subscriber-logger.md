@@ -42,10 +42,6 @@ The trace enablement path and display style are already connected to the datasto
 
 The logger can identify common Kerberos message types and label them clearly in the output. The current mapping covers `AS-REQ`, `AS-REP`, `TGS-REQ`, `TGS-REP`, `AP-REQ`, `AP-REP`, and `KRB-ERROR`. For formatting, it uses `lib/rex/proto/kerberos/kerberos_readable_text_presenter.rb` to turn structured data into terminal-friendly text, such as `Message Type: 30 (KRB-ERROR)` and `Description: Additional pre-authentication required`.
 
-![AS-REQ trace example 1](../../../../../pic/AS-REQ1.png)
-
-![TGS-REQ trace example](../../../../../pic/TGS-REQ.png)
-
 ### 3. Safe serialization of complex data structures
 
 Kerberos protocol objects contain nested structures, arrays, sets, hashes, and bit flags. The logger recursively serializes Kerberos models so nested objects keep expanding, arrays and sets preserve their structure, and flag types such as `KerberosFlags` become more readable. Time fields are converted to ISO 8601 strings, and error code objects are normalized into a combination of name, numeric value, and description.
@@ -56,11 +52,37 @@ For raw binary content, the logger also chooses a gentler presentation strategy.
 
 Credential events are already wired into `Krb5CcachePresenter`. When the code path extracts a TGT, TGS, or Delegation TGS credential, the logger can emit a fairly complete ccache-style summary.
 
-![AS-REQ trace example 2](../../../../../pic/AS-REQ2.png)
-
 ### 5. Error handling and stability
 
 The logger includes a fallback path for render failures. If the readable text presenter or another formatting step raises an exception, the logger returns a placeholder error string instead of interrupting module execution. For an observability feature, trace output should not become a new source of instability in the authentication flow.
+
+![AS-REQ and KRB-ERROR](../../../../../pic/AS-REQ%20and%20KRB-ERROR%28pre-authentication%20required%29.png)
+
+**AS-REQ and KRB-ERROR (pre-authentication required).** This is the initial AS exchange where the KDC responds with a pre-authentication challenge, showing that the trace already makes that step readable.
+
+![AS-REQ and AS-REP](../../../../../pic/AS-REQ%20and%20AS-REP.png)
+
+**AS-REQ and AS-REP.** After the pre-authentication data is provided, the flow moves into a successful AS exchange with both the request and response shown clearly.
+
+![TGT](../../../../../pic/TGT.png)
+
+**TGT.** This is the extracted TGT credential summary produced after the successful AS flow.
+
+![TGS-REQ and TGS-REP 1](../../../../../pic/TGS-REQ%20and%20TGS-REP%201.png)
+
+**TGS-REQ and TGS-REP.** This first TGS exchange shows how the service-ticket request and response are captured by the trace output.
+
+![TGS](../../../../../pic/TGS.png)
+
+**TGS.** This screenshot shows the service-ticket credential summary extracted after the TGS exchange.
+
+![TGS-REQ and TGS-REP 2](../../../../../pic/TGS-REQ%20and%20TGS-REP%202.png)
+
+**TGS-REQ and TGS-REP.** This is another TGS exchange example, included to show that the trace continues across later service-ticket activity as well.
+
+![Delegation TGS](../../../../../pic/Delegation%20TGS.png)
+
+**Delegation TGS.** This screenshot corresponds to the credential artifact produced in a delegation-related path, showing that credential events already extend into more specific Kerberos scenarios.
 
 ## How they plug into the flow
 
