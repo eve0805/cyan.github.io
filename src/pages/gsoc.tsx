@@ -23,7 +23,7 @@ const content={
       ['伪造票据与协议封装','为黄金、白银、钻石和蓝宝石票据加入追踪，并建设共享 GSS/SPNEGO token 处理能力。'],
     ],
     dates:[['2026-05—06','核心 KerberosTicketTrace 设计、实现、测试并合入 #21466'],['2026-07 上旬','完成枚举追踪模式 #21637 与离线票据输出 #21638'],['2026-07 下旬','推进伪造票据追踪 #21691 和共享 GSS/SPNEGO 处理 #21717'],['后续','继续完善 AP 交换、语义事件、兼容性、测试与文档']],
-    mentor:'导师',contributor:'CertificateTrace 参与者',me:'KerberosTicketTrace 参与者',official:'官方周报',read:'阅读文章',
+    mentor:'导师',contributor:'CertificateTrace 参与者',me:'KerberosTicketTrace 参与者',official:'官方周报',read:'阅读文章',notes:'技术记录',notesDesc:'原 Projects 栏目的 GSoC 技术文章现已统一归档在这里。',note1:'项目背景与认证可观测性设计',note2:'KerberosTicketTrace Subscriber 与 Logger',openNote:'阅读记录',
   },
   en:{
     label:'GSOC 2026 / RAPID7 METASPLOIT',title:'KerberosTicketTrace',accent:'making authentication flows observable.',
@@ -37,7 +37,7 @@ const content={
       ['Forged tickets and protocol wrappers','Tracing extends to golden, silver, diamond, and sapphire tickets, alongside shared GSS/SPNEGO token handling.'],
     ],
     dates:[['May—June 2026','Designed, implemented, tested, and merged the KerberosTicketTrace foundation in #21466'],['Early July 2026','Completed enum trace modes in #21637 and offline ticket output in #21638'],['Late July 2026','Advanced forged-ticket tracing in #21691 and shared GSS/SPNEGO handling in #21717'],['Next','Continue AP exchanges, semantic events, compatibility, tests, and documentation']],
-    mentor:'Mentors',contributor:'CertificateTrace contributor',me:'KerberosTicketTrace contributor',official:'Official update',read:'Read post',
+    mentor:'Mentors',contributor:'CertificateTrace contributor',me:'KerberosTicketTrace contributor',official:'Official update',read:'Read post',notes:'Technical notes',notesDesc:'The GSoC technical articles previously listed under Projects now live here.',note1:'Project background and authentication observability design',note2:'KerberosTicketTrace subscriber and logger',openNote:'Read note',
   }
 };
 
@@ -57,6 +57,11 @@ export default function Gsoc():React.JSX.Element{
       <div className={styles.phases}>{t.phases.map((x,i)=><article key={x[0]}><span>0{i+1}</span><div><h3>{x[0]}</h3><p>{x[1]}</p></div></article>)}</div>
       <h2 className={styles.subhead}>{t.timeline}</h2>
       <div className={styles.schedule}>{t.dates.map(x=><div key={x[0]}><time>{x[0]}</time><span>{x[1]}</span></div>)}</div>
+      <div className={extra.notesHead}><span>GSOC / RESEARCH</span><h2>{t.notes}</h2><p>{t.notesDesc}</p></div>
+      <div className={extra.notesGrid}>
+        <Link to="/gsoc/research/metasploit-kerberos-certificate-observability-overview"><span>01</span><h3>{t.note1}</h3><footer>{t.openNote} &#8594;</footer></Link>
+        <Link to="/gsoc/research/kerberos-ticket-trace-subscriber-logger"><span>02</span><h3>{t.note2}</h3><footer>{t.openNote} &#8594;</footer></Link>
+      </div>
       <div className={extra.pressHead}><div><span>{t.official}</span><h2>{t.coverage}</h2><p>{t.coverageDesc}</p></div></div>
       <div className={extra.pressGrid}>{rapid7Posts.map(post=><a href={post.url} key={post.url}><div><time>{post.date}</time><span>RAPID7</span></div><h3>{post[lang]}</h3><p>{lang==='en'?post.detailEn:post.detailZh}</p><footer>{t.read} &#8599;</footer></a>)}</div>
     </section>
