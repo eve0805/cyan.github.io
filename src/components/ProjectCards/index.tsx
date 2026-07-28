@@ -29,7 +29,7 @@ const items = [
   },
 ];
 
-export default function ProjectCards(): JSX.Element {
+export default function ProjectCards(): React.JSX.Element {
   return (
     <div className={styles.grid}>
       {items.map((item) => (

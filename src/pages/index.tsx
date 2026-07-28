@@ -1,84 +1,12 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-import Translate, {translate} from '@docusaurus/Translate';
-
-const cards = [
-  {
-    title: translate({
-      id: 'home.card.blog.title',
-      message: 'Blog',
-    }),
-    description: translate({
-      id: 'home.card.blog.description',
-      message: '时间流文章、周报、功能更新。',
-    }),
-    cta: translate({
-      id: 'home.card.blog.cta',
-      message: '进入 Blog',
-    }),
-    to: '/blog',
-  },
-  {
-    title: translate({
-      id: 'home.card.projects.title',
-      message: 'Projects',
-    }),
-    description: translate({
-      id: 'home.card.projects.description',
-      message: '作品夹、项目总览、阶段整理。',
-    }),
-    cta: translate({
-      id: 'home.card.projects.cta',
-      message: '进入 Projects',
-    }),
-    to: '/projects',
-  },
-  {
-    title: translate({
-      id: 'home.card.notes.title',
-      message: 'Notes',
-    }),
-    description: translate({
-      id: 'home.card.notes.description',
-      message: '知识点、代码路径、协议理解。',
-    }),
-    cta: translate({
-      id: 'home.card.notes.cta',
-      message: '进入 Notes',
-    }),
-    to: '/notes',
-  },
-] as const;
-
-export default function Home(): JSX.Element {
-  return (
-    <Layout title="Home" description="Cyan personal site">
-      <main style={{maxWidth: 960, margin: '0 auto', padding: '3rem 1rem'}}>
-        <h1>Cyan</h1>
-        <p>
-          <Translate id="home.subtitle">个人博客与项目记录站点。</Translate>
-        </p>
-        <p style={{maxWidth: 720, color: 'var(--ifm-color-emphasis-700)', lineHeight: 1.7}}>
-          <Translate id="home.localeNote">
-            重点 Projects 已提供英文版本，Blog 和 Notes 的英文内容也在逐步补充中。
-          </Translate>
-        </p>
-
-        <div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2rem'}}>
-          {cards.map((card) => (
-            <div
-              key={card.to}
-              style={{flex: '1 1 240px', border: '1px solid #ddd', borderRadius: '12px', padding: '1.2rem'}}>
-              <h2>{card.title}</h2>
-              <p>{card.description}</p>
-              <Link className="button button--primary" to={card.to}>
-                {card.cta}
-              </Link>
-            </div>
-          ))}
-        </div>
-      </main>
-    </Layout>
-  );
-}
+import styles from './index.module.css';
+const highlights=[{value:'5+',label:'upstream pull requests'},{value:'3',label:'merged contributions'},{value:'GSoC 26',label:'Metasploit contributor'}];
+const work=[{number:21466,title:'Kerberos ticket tracing',text:'Operator-readable visibility into AS, TGS and credential flows.',status:'Merged'},{number:21638,title:'Offline ticket inspection',text:'One trace language for live authentication and stored Kerberos artifacts.',status:'Merged'},{number:21637,title:'Purposeful trace modes',text:'Metadata, ticket and full modes balance clarity with sensitive output.',status:'Merged'}];
+export default function Home():React.JSX.Element{return <Layout title="Cyan - GSoC 2026" description="Cyan's GSoC 2026 journey with Metasploit"><main>
+<section className={styles.hero}><div className={styles.glow}/><div className={styles.heroInner}><div className={styles.eyebrow}><span/> GOOGLE SUMMER OF CODE 2026</div><h1>Tracing what Kerberos<br/><em>usually keeps hidden.</em></h1><p className={styles.lead}>Hi, I am Cyan - an open-source developer building Kerberos observability for the Metasploit Framework.</p><div className={styles.actions}><Link className={styles.primary} to="/gsoc">Explore the project <span aria-hidden="true">&#8599;</span></Link><a className={styles.secondary} href="https://github.com/eve0805">GitHub profile <span aria-hidden="true">&#8594;</span></a></div><div className={styles.stats}>{highlights.map(x=><div key={x.label}><strong>{x.value}</strong><span>{x.label}</span></div>)}</div></div>
+<div className={styles.terminal}><div className={styles.terminalBar}><i/><i/><i/><span>kerberos.trace</span></div><pre><span className={styles.muted}>$</span> set KerberosTicketTrace metadata{`\n`}<span className={styles.green}>[+]</span> AS-REQ  <span className={styles.muted}>client</span> cyan@LAB.LOCAL{`\n`}<span className={styles.green}>[in]</span> AS-REP  <span className={styles.muted}>etype</span> aes256{`\n`}<span className={styles.blue}>[out]</span> TGS-REQ <span className={styles.muted}>service</span> cifs/dc01{`\n`}<span className={styles.green}>[in]</span> TGS-REP <span className={styles.muted}>status</span> success{`\n`}{`\n`}<span className={styles.cursor}>_</span></pre></div></section>
+<section className={styles.section}><div className={styles.sectionHead}><div><span className={styles.kicker}>SELECTED WORK</span><h2>Upstream, one layer at a time.</h2></div><Link to="/contributions">View all contributions &#8594;</Link></div><div className={styles.workGrid}>{work.map((x,i)=><a className={styles.workCard} key={x.number} href={`https://github.com/rapid7/metasploit-framework/pull/${x.number}`}><div><span className={styles.index}>0{i+1}</span><span className={styles.badge}>{x.status}</span></div><h3>{x.title}</h3><p>{x.text}</p><footer><code>rapid7/metasploit-framework #{x.number}</code><span>&#8599;</span></footer></a>)}</div></section>
+<section className={styles.about}><div><span className={styles.kicker}>ABOUT THE WORK</span><h2>Make complex protocol flows readable.</h2></div><div><p>Kerberos failures are often buried beneath encryption, protocol wrappers and several authentication stages. My GSoC work adds a shared tracing foundation that helps operators understand what happened - during live authentication, offline inspection and ticket forging.</p><Link to="/gsoc">Read the project overview <span>&#8594;</span></Link></div></section>
+</main></Layout>}
