@@ -1,3 +1,64 @@
-import React from 'react'; import Layout from '@theme/Layout'; import Link from '@docusaurus/Link'; import useDocusaurusContext from '@docusaurus/useDocusaurusContext'; import styles from './story.module.css';
-const content={zh:{label:'GSOC 2026 / METASPLOIT',title:'让 Kerberos 与证书认证',accent:'从黑盒变得可观测。',lead:'CertificateTrace and KerberosTicketTrace Support：在不改变 Metasploit 默认行为的前提下，为认证流程提供可选、结构化的追踪与检查能力。',overview:'项目概述',problem:'问题不是缺少数据，而是缺少恰当时机的可见性。',desc:'当前操作者常常需要中断模块执行，导出 ccache、kirbi、PEM 或 PFX，再借助外部工具分析。本项目把协议和认证制品的关键信息带回 Metasploit 正在运行的工作流。',objectives:'三条工作主线',timeline:'项目计划',prs:'查看贡献',phase:[['KerberosTicketTrace','统一在线认证、离线票据和伪造票据流程的追踪，呈现 AS、TGS、AP、错误与凭据元数据。'],['X.509 Certificate Inspector','解析并检查 PEM、DER、CSR 与 PKCS#12/PFX，提供认证相关的证书身份、有效期、SAN、EKU 与密钥信息。'],['CertificateTrace','追踪证书加载、选择、身份映射、CSR、证书签发、PFX 打包、持久化，以及向 PKINIT 和 LDAP Schannel 的传递。']],dates:[['5月1日—5月29日','实现 KerberosTicketTrace 基础框架'],['5月30日—6月19日','实现 X.509 证书检查模块'],['6月20日—7月18日','实现并集成 CertificateTrace 事件系统'],['7月19日—7月26日','兼容性处理、测试与文档'],['7月26日—8月25日','修复问题、优化输出并完成最终提交']]},en:{label:'GSOC 2026 / METASPLOIT',title:'Making Kerberos and certificate authentication',accent:'observable by design.',lead:'CertificateTrace and KerberosTicketTrace Support introduces opt-in, structured tracing and inspection without changing default Metasploit behavior.',overview:'PROJECT OVERVIEW',problem:'The problem is not a lack of data, but a lack of visibility at the right moment.',desc:'Operators often have to interrupt execution, export ccache, kirbi, PEM, or PFX artifacts, and inspect them with external tools. This project brings protocol and authentication-artifact context into the active Metasploit workflow.',objectives:'Three workstreams',timeline:'Project timeline',prs:'View contributions',phase:[['KerberosTicketTrace','Unified tracing across online authentication, offline artifacts, and forged-ticket workflows, covering AS, TGS, AP, errors, and credential metadata.'],['X.509 Certificate Inspector','Inspection of PEM, DER, CSR, and PKCS#12/PFX data, surfacing identity, validity, SAN, EKU, and key information relevant to authentication.'],['CertificateTrace','Tracing certificate loading, selection, identity mapping, CSR generation, issuance, PFX packaging, persistence, and handoff to PKINIT and LDAP Schannel.']],dates:[['May 1—May 29','Implement the KerberosTicketTrace foundation'],['May 30—June 19','Implement the X.509 certificate inspector'],['June 20—July 18','Implement and integrate the CertificateTrace event system'],['July 19—July 26','Compatibility work, testing, and documentation'],['July 26—August 25','Fix issues, refine output, and prepare the final submission']]}};
-export default function Gsoc():React.JSX.Element{const {i18n}=useDocusaurusContext();const t=content[i18n.currentLocale==='en'?'en':'zh'];return <Layout title="GSoC 2026" description={t.lead}><main className={styles.page}><header className={styles.header}><span>{t.label}</span><h1>{t.title}<br/><em>{t.accent}</em></h1><p>{t.lead}</p><div><a href="https://github.com/rapid7/metasploit-framework">Metasploit Framework &#8599;</a><Link to="/contributions">{t.prs} &#8594;</Link></div></header><section className={styles.content}><div className={styles.intro}><span>{t.overview}</span><h2>{t.problem}</h2><p>{t.desc}</p></div><h2 className={styles.subhead}>{t.objectives}</h2><div className={styles.phases}>{t.phase.map((x,i)=><article key={x[0]}><span>0{i+1}</span><div><h3>{x[0]}</h3><p>{x[1]}</p></div></article>)}</div><h2 className={styles.subhead}>{t.timeline}</h2><div className={styles.schedule}>{t.dates.map(x=><div key={x[0]}><time>{x[0]}</time><span>{x[1]}</span></div>)}</div></section></main></Layout>}
+import React from 'react';
+import Layout from '@theme/Layout';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import styles from './story.module.css';
+import extra from './gsoc.module.css';
+
+const rapid7Posts=[
+  {url:'https://www.rapid7.com/blog/post/pt-metasploit-wrap-up-13-06-2026/',date:'2026-06-13',en:'New Kerberos/Certificate tracing options, and multiple new modules',zh:'新的 Kerberos/Certificate 追踪选项与多个新模块',detailEn:'Introduced KerberosTicketTrace and credited PR #21466.',detailZh:'介绍 KerberosTicketTrace，并收录了我的 PR #21466。'},
+  {url:'https://www.rapid7.com/blog/post/pt-weekly-metasploit-update-exploits-for-flowiseai-csv-agent-and-macos-package-kit/',date:'2026-07-10',en:'Exploits for FlowiseAI CSV Agent and macOS Package Kit',zh:'FlowiseAI CSV Agent 与 macOS Package Kit 漏洞更新',detailEn:'Featured PR #21637 and the new trace granularity modes.',detailZh:'收录 PR #21637 以及新增的追踪粒度模式。'},
+];
+
+const content={
+  zh:{
+    label:'GSOC 2026 / RAPID7 METASPLOIT',title:'KerberosTicketTrace',accent:'让认证流程不再是黑盒。',
+    lead:'我的 GSoC 2026 工作聚焦于 Metasploit Framework 的 KerberosTicketTrace：为在线认证、离线票据、伪造票据以及 GSS/SPNEGO 封装建立一致、可选的可观测能力。',
+    overview:'当前项目范围',problem:'专注 Kerberos，从协议消息走向完整工作流。',
+    desc:'最初的 proposal 同时覆盖 Kerberos 与证书追踪。项目执行阶段重新划分了职责：我主要负责 KerberosTicketTrace；CertificateTrace 与证书相关工作由另一位 GSoC 参与者 Pushpender Singh Rathore 实现。两条工作流同属 Metasploit 认证可观测性方向，但交付范围彼此独立。',
+    scope:'我的工作主线',timeline:'实际进展',team:'项目成员',coverage:'Rapid7 Metasploit Blog',coverageDesc:'Rapid7 官方 Metasploit 周报中直接涉及我的 GSoC 工作的文章。',prs:'查看我的贡献',partner:'查看 CertificateTrace 参与者博客',
+    phases:[
+      ['在线认证追踪','在 Rex Kerberos 客户端层加入 subscriber 与 presenter，呈现 AS-REQ、AS-REP、TGS-REQ、TGS-REP、KRB-ERROR 和凭据输出。'],
+      ['追踪模式与离线制品','将选项演进为 off、metadata、ticket、full 模式，并把相同输出扩展到 ccache、kirbi、klist 和票据转换流程。'],
+      ['伪造票据与协议封装','为黄金、白银、钻石和蓝宝石票据加入追踪，并建设共享 GSS/SPNEGO token 处理能力。'],
+    ],
+    dates:[['2026-05—06','核心 KerberosTicketTrace 设计、实现、测试并合入 #21466'],['2026-07 上旬','完成枚举追踪模式 #21637 与离线票据输出 #21638'],['2026-07 下旬','推进伪造票据追踪 #21691 和共享 GSS/SPNEGO 处理 #21717'],['后续','继续完善 AP 交换、语义事件、兼容性、测试与文档']],
+    mentor:'导师',contributor:'CertificateTrace 参与者',me:'KerberosTicketTrace 参与者',official:'官方周报',read:'阅读文章',
+  },
+  en:{
+    label:'GSOC 2026 / RAPID7 METASPLOIT',title:'KerberosTicketTrace',accent:'making authentication flows observable.',
+    lead:'My GSoC 2026 work focuses on KerberosTicketTrace for the Metasploit Framework: consistent, opt-in observability across live authentication, offline tickets, forged tickets, and GSS/SPNEGO encapsulation.',
+    overview:'CURRENT PROJECT SCOPE',problem:'Focused on Kerberos, from protocol messages to complete workflows.',
+    desc:'The original proposal covered both Kerberos and certificate tracing. Responsibilities were refined during the program: I primarily own KerberosTicketTrace, while CertificateTrace and certificate-related work are implemented by fellow GSoC contributor Pushpender Singh Rathore. Both tracks improve Metasploit authentication observability, but their deliverables are distinct.',
+    scope:'My workstreams',timeline:'Actual progress',team:'Project team',coverage:'Rapid7 Metasploit Blog',coverageDesc:'Official Rapid7 Metasploit updates that directly feature my GSoC work.',prs:'View my contributions',partner:'Visit the CertificateTrace contributor blog',
+    phases:[
+      ['Live authentication tracing','A Rex Kerberos client subscriber and presenter expose AS-REQ, AS-REP, TGS-REQ, TGS-REP, KRB-ERROR, and credential output.'],
+      ['Trace modes and offline artifacts','The option evolved into off, metadata, ticket, and full modes, with consistent output for ccache, kirbi, klist, and ticket conversion.'],
+      ['Forged tickets and protocol wrappers','Tracing extends to golden, silver, diamond, and sapphire tickets, alongside shared GSS/SPNEGO token handling.'],
+    ],
+    dates:[['May—June 2026','Designed, implemented, tested, and merged the KerberosTicketTrace foundation in #21466'],['Early July 2026','Completed enum trace modes in #21637 and offline ticket output in #21638'],['Late July 2026','Advanced forged-ticket tracing in #21691 and shared GSS/SPNEGO handling in #21717'],['Next','Continue AP exchanges, semantic events, compatibility, tests, and documentation']],
+    mentor:'Mentors',contributor:'CertificateTrace contributor',me:'KerberosTicketTrace contributor',official:'Official update',read:'Read post',
+  }
+};
+
+export default function Gsoc():React.JSX.Element{
+  const {i18n}=useDocusaurusContext(); const lang=i18n.currentLocale==='en'?'en':'zh'; const t=content[lang];
+  return <Layout title="GSoC 2026 / KerberosTicketTrace" description={t.lead}><main className={styles.page}>
+    <header className={styles.header}><span>{t.label}</span><h1>{t.title}<br/><em>{t.accent}</em></h1><p>{t.lead}</p><div><Link to="/contributions">{t.prs} &#8594;</Link><a href="https://pushpenderrathore.github.io/gsoc.html">{t.partner} &#8599;</a></div></header>
+    <section className={styles.content}>
+      <div className={styles.intro}><span>{t.overview}</span><h2>{t.problem}</h2><p>{t.desc}</p></div>
+      <h2 className={styles.subhead}>{t.team}</h2>
+      <div className={extra.teamGrid}>
+        <a href="https://github.com/eve0805"><span>{t.me}</span><strong>Cyan / @eve0805</strong><small>KerberosTicketTrace</small></a>
+        <a href="https://pushpenderrathore.github.io/gsoc.html"><span>{t.contributor}</span><strong>Pushpender Singh Rathore</strong><small>CertificateTrace</small></a>
+        <div><span>{t.mentor}</span><strong>@jheysel-r7</strong><strong>@zeroSteiner</strong></div>
+      </div>
+      <h2 className={styles.subhead}>{t.scope}</h2>
+      <div className={styles.phases}>{t.phases.map((x,i)=><article key={x[0]}><span>0{i+1}</span><div><h3>{x[0]}</h3><p>{x[1]}</p></div></article>)}</div>
+      <h2 className={styles.subhead}>{t.timeline}</h2>
+      <div className={styles.schedule}>{t.dates.map(x=><div key={x[0]}><time>{x[0]}</time><span>{x[1]}</span></div>)}</div>
+      <div className={extra.pressHead}><div><span>{t.official}</span><h2>{t.coverage}</h2><p>{t.coverageDesc}</p></div></div>
+      <div className={extra.pressGrid}>{rapid7Posts.map(post=><a href={post.url} key={post.url}><div><time>{post.date}</time><span>RAPID7</span></div><h3>{post[lang]}</h3><p>{lang==='en'?post.detailEn:post.detailZh}</p><footer>{t.read} &#8599;</footer></a>)}</div>
+    </section>
+  </main></Layout>
+}
