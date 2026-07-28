@@ -1,6 +1,3 @@
 {
-  "copyright": {
-    "message": "Copyright © 2026 Cyan",
-    "description": "The footer copyright"
-  }
+  "copyright": {"message": "Copyright 2026 Cyan / Built in the open", "description": "The footer copyright"}
 }
