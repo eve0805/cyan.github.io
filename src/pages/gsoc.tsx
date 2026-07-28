@@ -14,7 +14,7 @@ const content={
   zh:{
     label:'GSOC 2026 / RAPID7 METASPLOIT',title:'KerberosTicketTrace',accent:'让认证流程不再是黑盒。',
     lead:'我的 GSoC 2026 工作聚焦于 Metasploit Framework 的 KerberosTicketTrace：为在线认证、离线票据、伪造票据以及 GSS/SPNEGO 封装建立一致、可选的可观测能力。',
-    overview:'当前项目范围',problem:'专注 Kerberos，从协议消息走向完整工作流。',
+    overview:'当前项目范围',problem:'真正的问题不是缺少数据，而是能否在关键的时候看到合适的内容。',
     desc:'最初的 proposal 同时覆盖 Kerberos 与证书追踪。项目执行阶段重新划分了职责：我主要负责 KerberosTicketTrace；CertificateTrace 与证书相关工作由另一位 GSoC 参与者 Pushpender Singh Rathore 实现。两条工作流同属 Metasploit 认证可观测性方向，但交付范围彼此独立。',
     scope:'我的工作主线',timeline:'实际进展',team:'项目成员',coverage:'Rapid7 Metasploit Blog',coverageDesc:'Rapid7 官方 Metasploit 周报中直接涉及我的 GSoC 工作的文章。',prs:'查看我的贡献',partner:'查看 CertificateTrace 参与者博客',
     phases:[
@@ -28,7 +28,7 @@ const content={
   en:{
     label:'GSOC 2026 / RAPID7 METASPLOIT',title:'KerberosTicketTrace',accent:'making authentication flows observable.',
     lead:'My GSoC 2026 work focuses on KerberosTicketTrace for the Metasploit Framework: consistent, opt-in observability across live authentication, offline tickets, forged tickets, and GSS/SPNEGO encapsulation.',
-    overview:'CURRENT PROJECT SCOPE',problem:'Focused on Kerberos, from protocol messages to complete workflows.',
+    overview:'CURRENT PROJECT SCOPE',problem:'The real challenge is seeing the right information at the moment it matters.',
     desc:'The original proposal covered both Kerberos and certificate tracing. Responsibilities were refined during the program: I primarily own KerberosTicketTrace, while CertificateTrace and certificate-related work are implemented by fellow GSoC contributor Pushpender Singh Rathore. Both tracks improve Metasploit authentication observability, but their deliverables are distinct.',
     scope:'My workstreams',timeline:'Actual progress',team:'Project team',coverage:'Rapid7 Metasploit Blog',coverageDesc:'Official Rapid7 Metasploit updates that directly feature my GSoC work.',prs:'View my contributions',partner:'Visit the CertificateTrace contributor blog',
     phases:[
